@@ -1,0 +1,232 @@
+.modal-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+
+    backdrop-filter: blur(6px);
+    padding: 15px;
+
+    overflow-y: auto; /* important mobile */
+}
+
+/* ================= MODAL BOX ================= */
+.modal{
+    background: #fff;
+
+    width: 420px;
+    max-width: 95%;
+
+    border-radius: 14px;
+    padding: 18px;
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+
+    animation: popup 0.25s ease-out;
+
+    max-height: 90vh;     /* important */
+    overflow-y: auto;     /* scroll interne si contenu long */
+}
+
+/*  table  */
+
+.table-container{
+    width: 100%;
+    overflow-x: auto;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+th, td{
+    padding: 12px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* animation */
+@keyframes popup{
+    from{
+        transform: scale(0.92);
+        opacity: 0;
+    }
+    to{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ================= HEADER ================= */
+.modal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h3{
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* CLOSE BUTTON */
+.close-btn{
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+    border: none;
+
+    background: #f1f5f9;
+    color: #334155;
+
+    font-size: 18px;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.close-btn:hover{
+    background: #e2e8f0;
+    color: #ef4444;
+    transform: rotate(90deg);
+}
+
+/* ================= INPUTS ================= */
+.modal input,
+.modal select{
+    width: 100%;
+    padding: 10px 12px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+
+    outline: none;
+    font-size: 14px;
+
+    margin-bottom: 10px;
+
+    transition: 0.2s ease;
+}
+
+.modal input:focus,
+.modal select:focus{
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+/* ================= BUTTONS ================= */
+.btn-primary{
+    background: #3498db;
+    color: #fff;
+    margin:10px;
+
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+
+    font-weight: 600;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.btn-primary:hover{
+    background: #2980b9;
+    transform: translateY(-1px);
+    margin:10px;
+}
+
+.btn-delete{
+    background: #e74c3c;
+    color: #fff;
+
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+
+    font-weight: 600;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.btn-delete:hover{
+    background: #c0392b;
+    transform: translateY(-1px);
+}
+
+/* ================= ACTIONS ================= */
+.form-actions{
+    margin-top: 15px;
+
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    flex-wrap: wrap; /* important mobile */
+}
+
+/* ================= HIDDEN ================= */
+.hidden{
+    display: none;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* TABLET */
+@media (max-width: 768px){
+    .modal{
+        width: 92%;
+        padding: 16px;
+    }
+
+    .modal-header h3{
+        font-size: 16px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 480px){
+    .modal{
+        width: 95%;
+        padding: 14px;
+        border-radius: 12px;
+    }
+
+    .modal input,
+    .modal select{
+        font-size: 13px;
+        padding: 9px 10px;
+    }
+
+    .form-actions{
+        justify-content: center;
+    }
+
+    .btn-primary,
+    .btn-delete{
+        width: 100%; /* boutons full width sur mobile */
+    }
+}
