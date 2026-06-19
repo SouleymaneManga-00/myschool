@@ -1,132 +1,309 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+    /* ==========================
+       RECHERCHE
+    ========================== */
+
+    const searchInput = document.getElementById("edt-search");
+
+    if (searchInput) {
+
+        searchInput.addEventListener("keyup", function () {
+
+            const valeur = this.value.toLowerCase();
+
+            const lignes = document.querySelectorAll(
+                ".emploi-table tbody tr"
+            );
+
+            lignes.forEach(ligne => {
+
+                const texte = ligne.textContent.toLowerCase();
+
+                ligne.style.display =
+                    texte.includes(valeur)
+                    ? ""
+                    : "none";
+
+            });
+
+        });
+
+    }
+
+});
+
+
 /* ==========================
-   MODAL
+   OUVRIR MODAL
 ========================== */
 
 function ouvrirFormulaireCours() {
-    document.getElementById("modalCours").style.display = "flex";
-}
 
-function fermerModal() {
-    document.getElementById("modalCours").style.display = "none";
+    const modal =
+        document.getElementById("modalCours");
 
-    document.getElementById("matiere").value = "";
-    document.getElementById("salle").value = "";
-    document.getElementById("jour").value = "";
-    document.getElementById("heure").value = "";
-}
-
-/* fermer si clic dehors */
-window.onclick = function (event) {
-    let modal = document.getElementById("modalCours");
-    if (event.target === modal) {
-        fermerModal();
+    if (modal) {
+        modal.style.display = "flex";
     }
-};
+
+}
+
 
 /* ==========================
-   AJOUT COURS
+   FERMER MODAL
+========================== */
+
+function fermerModal() {
+
+    const modal =
+        document.getElementById("modalCours");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+
+    const matiere =
+        document.getElementById("matiere");
+
+    const salle =
+        document.getElementById("salle");
+
+    const jour =
+        document.getElementById("jour");
+
+    const heure =
+        document.getElementById("heure");
+
+    if (matiere) matiere.value = "";
+    if (salle) salle.value = "";
+    if (jour) jour.value = "";
+    if (heure) heure.value = "";
+
+}
+
+
+/* ==========================
+   FERMETURE SI CLIC DEHORS
+========================== */
+
+window.addEventListener("click", (event) => {
+
+    const modal =
+        document.getElementById("modalCours");
+
+    if (
+        modal &&
+        event.target === modal
+    ) {
+        fermerModal();
+    }
+
+});
+
+
+/* ==========================
+   TOUCHE ECHAP
+========================== */
+
+document.addEventListener("keydown", (e) => {
+
+    if (e.key === "Escape") {
+        fermerModal();
+    }
+
+});
+
+
+/* ==========================
+   AJOUT D'UN COURS
 ========================== */
 
 function ajouterCoursModal() {
 
-    let heure = document.getElementById("heure").value.trim();
-    let jour = document.getElementById("jour").value;
-    let matiere = document.getElementById("matiere").value.trim();
-    let salle = document.getElementById("salle").value.trim();
+    let heure =
+        document.getElementById("heure")
+        .value.trim();
 
-    if (!heure || !jour || !matiere || !salle) {
-        alert("Veuillez remplir tous les champs !");
+    let jour =
+        document.getElementById("jour")
+        .value;
+
+    let matiere =
+        document.getElementById("matiere")
+        .value.trim();
+
+    let salle =
+        document.getElementById("salle")
+        .value.trim();
+
+    if (
+        !heure ||
+        !jour ||
+        !matiere ||
+        !salle
+    ) {
+        alert(
+            "Veuillez remplir tous les champs."
+        );
         return;
     }
 
-    let table = document.querySelector(".emploi-table tbody");
-    let lignes = table.querySelectorAll("tr");
+    const table =
+        document.querySelector(
+            ".emploi-table tbody"
+        );
+
+    const lignes =
+        table.querySelectorAll("tr");
 
     let ligneTrouvee = null;
 
     lignes.forEach(ligne => {
-        let heureCellule = ligne.cells[0].textContent.trim();
-        if (heureCellule === heure) {
+
+        const heureCellule =
+            ligne.cells[0]
+            .textContent
+            .trim();
+
+        if (
+            heureCellule === heure
+        ) {
             ligneTrouvee = ligne;
         }
+
     });
 
-    let jours = {
+    const jours = {
+
         "Lundi": 1,
         "Mardi": 2,
         "Mercredi": 3,
         "Jeudi": 4,
         "Vendredi": 5,
         "Samedi": 6
+
     };
 
     if (!jours[jour]) {
-        alert("Jour invalide !");
+
+        alert("Jour invalide");
+
         return;
+
     }
 
-    let colonne = jours[jour];
+    const colonne = jours[jour];
 
-    let contenuCours = `
+    const contenuCours = `
+
         <div class="cours">
+
             <span>${matiere}</span>
+
             <small>${salle}</small>
-            <button class="btn-delete" onclick="supprimerCours(this)">×</button>
+
+            <button
+                class="edt-btn-delete"
+                onclick="supprimerCours(this)"
+            >
+                ×
+            </button>
+
         </div>
+
     `;
 
     if (ligneTrouvee) {
-        ligneTrouvee.cells[colonne].innerHTML = contenuCours;
-    } else {
 
-        let nouvelleLigne = document.createElement("tr");
+        ligneTrouvee
+        .cells[colonne]
+        .innerHTML = contenuCours;
+
+    }
+
+    else {
+
+        const nouvelleLigne =
+            document.createElement("tr");
 
         nouvelleLigne.innerHTML = `
-            <td><strong>${heure}</strong></td>
+
+            <td>
+                <strong>${heure}</strong>
+            </td>
+
             <td>-</td>
             <td>-</td>
             <td>-</td>
             <td>-</td>
             <td>-</td>
             <td>-</td>
+
         `;
 
-        nouvelleLigne.cells[colonne].innerHTML = contenuCours;
+        nouvelleLigne
+        .cells[colonne]
+        .innerHTML = contenuCours;
 
-        table.appendChild(nouvelleLigne);
+        table.appendChild(
+            nouvelleLigne
+        );
+
     }
 
     fermerModal();
+
 }
 
+
 /* ==========================
-   SUPPRESSION COURS + LIGNE SI VIDE
+   SUPPRESSION COURS
 ========================== */
 
 function supprimerCours(btn) {
 
-    let cell = btn.parentElement;   // div.cours
-    let td = cell.parentElement;    // td
-    let tr = td.parentElement;      // tr
+    const cours =
+        btn.parentElement;
 
-    // supprimer cours
-    cell.remove();
+    const td =
+        cours.parentElement;
 
-    // vérifier si la ligne est vide
+    const tr =
+        td.parentElement;
+
+    cours.remove();
+
     let resteCours = false;
 
-    for (let i = 1; i < tr.cells.length; i++) {
+    for (
+        let i = 1;
+        i < tr.cells.length;
+        i++
+    ) {
 
-        let content = tr.cells[i].innerHTML.trim();
+        const contenu =
+            tr.cells[i]
+            .innerHTML
+            .trim();
 
-        if (content !== "" && content !== "-") {
+        if (
+            contenu !== "" &&
+            contenu !== "-"
+        ) {
+
             resteCours = true;
+
             break;
+
         }
+
     }
 
-    // supprimer ligne si vide
     if (!resteCours) {
+
         tr.remove();
+
     }
+
 }

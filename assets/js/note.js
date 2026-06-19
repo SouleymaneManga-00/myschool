@@ -1,24 +1,30 @@
-const searchInput =
-document.getElementById("searchInput");
+document.addEventListener("DOMContentLoaded", () => {
 
-searchInput.addEventListener("keyup", function () {
+    const searchInput = document.getElementById("searchInput");
 
-    const value =
-    this.value.toLowerCase();
+    if (!searchInput) {
+        return;
+    }
 
-    const rows =
-    document.querySelectorAll("#notesTable tr");
+    searchInput.addEventListener("keyup", function () {
 
-    rows.forEach(row => {
+        const value = this.value.toLowerCase();
 
-        const matiere =
-        row.children[0]
-        .textContent
-        .toLowerCase();
+        const rows =
+        document.querySelectorAll("#notesTable tr");
 
-        row.style.display =
-        matiere.includes(value)
-        ? ""
-        : "none";
+        rows.forEach(row => {
+
+            const matiere =
+            row.children[0].textContent.toLowerCase();
+
+            row.style.display =
+            matiere.includes(value)
+            ? ""
+            : "none";
+
+        });
+
     });
+
 });
