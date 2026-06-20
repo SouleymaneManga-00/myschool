@@ -13,6 +13,8 @@ include '../layouts/header.php';
 include '../layouts/sidebar_etudiants.php';
 ?>
 
+<link rel="stylesheet" href="../../assets/css/note.css">
+
 
 <div class="main-content">
 
@@ -140,5 +142,6 @@ include '../layouts/sidebar_etudiants.php';
 
 </div>
 
+<script src="../../assets/js/note.js"></script>
 
 <?php include '../layouts/footer.php'; ?>

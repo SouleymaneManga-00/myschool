@@ -13,6 +13,8 @@ include '../layouts/header.php';
 include '../layouts/sidebar_admin.php';
 ?>
 
+<link rel="stylesheet" href="../../assets/css/enseignants.css">
+
 <div class="main-content">
 
     <div class="topbar">
@@ -28,14 +30,17 @@ include '../layouts/sidebar_admin.php';
         <button id="showFormBtn" class="btn-primary">
             + Ajouter un enseignant
         </button>
+        <br><br>
 
         <!-- MODAL -->
-        <div id="modalOverlay" class="modal-overlay hidden">
+        <div id="teacher-modal-overlay" class="teacher-modal-overlay hidden">
 
-            <div class="modal">
+            <div class="teacher-modal">
 
                 <div class="modal-header">
-                    <h3>Ajouter un enseignant</h3>
+                    <h2>
+                        <strong><i class="fa-solid fa-chalkboard-user"></i></strong>
+                    Ajouter un enseignant</h2>
                     <button id="closeModalBtn" class="close-btn">×</button>
                 </div>
 
@@ -113,10 +118,31 @@ include '../layouts/sidebar_admin.php';
                         </tr>
                     </thead>
 
-                    <tbody id="tableBody"></tbody>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td>1</td>
+                            <td>Aliou</td>
+                            <td>Fall</td>
+                            <td>fall@unchk.edu.sn</td>
+                            <td>776543000</td>
+                            <td>Physique</td>
+                            <td>
+                                <span><a href="#" class="action edit"><i class="fa-solid fa-pencil"></i></a></span>
+                                <br><br>
+                                <span><a href="#" class="action delete"><i class="fa-solid fa-trash"></i></a></span>
+
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
-
+            <div class="pagination">
+                    <button><i class="fa-solid fa-angle-left"></i></button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button><i class="fa-solid fa-angle-right"></i></button>
+             </div>
             <div id="pagination" class="pagination"></div>
 
         </div>
@@ -124,5 +150,6 @@ include '../layouts/sidebar_admin.php';
     </div>
 </div>
 
+<script src="../../assets/js/enseignants.js"></script>
 
 <?php include '../layouts/footer.php'; ?>
