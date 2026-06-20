@@ -1,0 +1,164 @@
+/* ==========================
+   EMPLOI DU TEMPS ENSEIGNANT
+========================== */
+
+.main-content {
+    margin-left: 360px;
+    width: calc(100% - 360px);
+    min-height: 100vh;
+    padding: 30px;
+    background: #f4f7fc;
+    box-sizing: border-box;
+}
+
+/* TOPBAR */
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.topbar h2 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.user {
+    background: white;
+    padding: 12px 18px;
+    border-radius: 14px;
+    font-weight: 600;
+    color: #475569;
+    box-shadow: 0 4px 15px rgba(0,0,0,.06);
+}
+
+/* TABLE CONTAINER */
+
+.table-container {
+    background: white;
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    overflow-x: auto;
+}
+
+/* TABLE */
+
+.emploi-table {
+    width: 100%;
+    min-width: 1000px;
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+
+/* HEADER */
+
+.emploi-table th {
+    background: #2563eb;
+    color: white;
+    padding: 16px;
+    border-radius: 14px;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: .5px;
+}
+
+/* CELLS */
+
+.emploi-table td {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 14px;
+    min-height: 90px;
+    vertical-align: top;
+    font-size: 13px;
+    transition: .3s;
+}
+
+/* HORAIRE */
+
+.emploi-table td:first-child {
+    background: #e2e8f0;
+    text-align: center;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* COURS */
+
+.emploi-table td:not(:first-child) {
+    border-left: 4px solid #2563eb;
+}
+
+.emploi-table td:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37,99,235,.12);
+}
+
+/* PETIT TEXTE */
+
+.emploi-table small {
+    display: block;
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 11px;
+}
+
+/* RESPONSIVE TABLETTE */
+
+@media (max-width: 1200px) {
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+}
+
+/* RESPONSIVE MOBILE */
+
+@media (max-width: 768px) {
+
+    .topbar h2 {
+        font-size: 24px;
+    }
+
+    .emploi-table {
+        min-width: 850px;
+    }
+
+    .emploi-table td,
+    .emploi-table th {
+        font-size: 12px;
+    }
+
+}
+
+/* PETITS ÉCRANS */
+
+@media (max-width: 480px) {
+
+    .main-content {
+        padding: 12px;
+    }
+
+    .table-container {
+        padding: 12px;
+    }
+
+    .emploi-table {
+        min-width: 750px;
+    }
+
+}
