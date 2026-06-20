@@ -49,6 +49,7 @@
         <li>
             <a href="emploi_temps.php"
             class="<?= basename($_SERVER['PHP_SELF']) == 'emploi_temps.php' ? 'active' : '' ?>">
+            <i class="fa-solid fa-calendar-days"></i>
                 Emploi du temps
             </a>
         </li>
