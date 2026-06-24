@@ -51,7 +51,6 @@ include '../layouts/header.php';
 include '../layouts/sidebar_admin.php';
 ?>
 
-?>
 
 <link rel="stylesheet" href="../../assets/css/etudiants.css">
 
