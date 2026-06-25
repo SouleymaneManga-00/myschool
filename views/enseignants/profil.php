@@ -1,85 +1,119 @@
 <?php
-
 session_start();
 
-if(
+if (
     !isset($_SESSION['id']) ||
     $_SESSION['role'] !== 'enseignant'
-){
+) {
     header('Location: ../../index.php');
     exit();
 }
 
 include '../layouts/header.php';
 include '../layouts/sidebar_enseignants.php';
-
 ?>
+
+<link rel="stylesheet" href="../../assets/css/profil.css">
 
 <div class="main-content">
 
     <div class="topbar">
 
-        <h2>Mon Profil</h2>
+        <h2>Profil Enseignant</h2>
 
         <div class="user">
-            Bonjour <?= $_SESSION['prenom']; ?>
+            Bonjour <?= htmlspecialchars($_SESSION['prenom']); ?>
         </div>
 
     </div>
 
     <div class="profile-container">
 
-        <div class="profile-header">
+        <div id="profileForm">
 
-            <div class="profile-avatar">
+            <div class="profile-header">
 
-                <i class="fa-solid fa-user"></i>
+                <div class="profile-avatar">
 
-            </div>
+                    <i class="fa-solid fa-chalkboard-user"></i>
 
-            <div class="profile-info">
+                </div>
 
-                <h2>
-                    <?= $_SESSION['prenom'] . ' ' . $_SESSION['nom']; ?>
-                </h2>
+                <div class="profile-info">
 
-                <p>Enseignant</p>
+                    <h2>
+                        <?= htmlspecialchars($_SESSION['prenom']); ?>
+                        <?= htmlspecialchars($_SESSION['nom']); ?>
+                    </h2>
 
-            </div>
+                    <p>Enseignant</p>
 
-        </div>
+                   <!-- Bouton Photo -->
 
-        <div class="profile-grid">
+            <label for="photoInput"
+                   class="btn-photo">
 
-            <div class="info-card">
+                <i class="fa-solid fa-camera"></i>
 
-                <h4>Prénom</h4>
+                Ajouter une photo
 
-                <p><?= $_SESSION['prenom']; ?></p>
+            </label>
 
-            </div>
 
-            <div class="info-card">
-
-                <h4>Nom</h4>
-
-                <p><?= $_SESSION['nom']; ?></p>
-
-            </div>
-
-            <div class="info-card">
-
-                <h4>Email</h4>
-
-                <p><?= $_SESSION['email']; ?></p>
+            <input type="file"
+                   id="photoInput"
+                   name="photo"
+                   accept="image/*"
+                   hidden>
+                </div>
 
             </div>
 
-            <div class="info-card">
+            <div class="profile-grid">
 
-                <h4>Rôle</h4>
+                <div class="info-card">
+                    <h4>Prénom</h4>
+                    <input
+                        type="text"
+                        value="<?= htmlspecialchars($_SESSION['prenom']); ?>"
+                        readonly>
+                </div>
 
-                <p><?= ucfirst($_SESSION['role']); ?></p>
+                <div class="info-card">
+                    <h4>Nom</h4>
+                    <input
+                        type="text"
+                        value="<?= htmlspecialchars($_SESSION['nom']); ?>"
+                        readonly>
+                </div>
+
+                <div class="info-card">
+                    <h4>Email</h4>
+                    <input
+                        type="email"
+                        value="<?= htmlspecialchars($_SESSION['email']); ?>"
+                        readonly>
+                </div>
+
+                <div class="info-card">
+                    <h4>Rôle</h4>
+                    <input
+                        type="text"
+                        value="Enseignant"
+                        readonly>
+                </div>
+
+            </div>
+
+            <div class="profile-actions">
+
+                <a href="../../logout.php" class="btn-logout">
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    Déconnexion
+
+                </a>
 
             </div>
 
