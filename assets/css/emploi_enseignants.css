@@ -1,164 +1,223 @@
 /* ==========================
-   EMPLOI DU TEMPS ENSEIGNANT
+   EMPLOI DU TEMPS ENSEIGNANT (VERSION PROPRE)
 ========================== */
 
-.main-content {
-    margin-left: 360px;
-    width: calc(100% - 360px);
+.main-content-enseignants {
+    margin-left: 300px;
+    width: calc(100% - 300px);
     min-height: 100vh;
-    padding: 30px;
+    padding: 20px 25px;
     background: #f4f7fc;
     box-sizing: border-box;
 }
 
-/* TOPBAR */
+/* ==========================
+   TOPBAR
+========================== */
 
-.topbar {
+.topbar-enseignants {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.topbar h2 {
-    font-size: 30px;
+.topbar-enseignants h2 {
+    font-size: 26px;
     font-weight: 700;
     color: #1e293b;
     margin: 0;
 }
 
 .user {
-    background: white;
-    padding: 12px 18px;
-    border-radius: 14px;
+    background: #fff;
+    padding: 10px 15px;
+    border-radius: 12px;
     font-weight: 600;
     color: #475569;
-    box-shadow: 0 4px 15px rgba(0,0,0,.06);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* TABLE CONTAINER */
+/* ==========================
+   MATIÈRE
+========================== */
 
-.table-container {
+.matiere-prof {
+    background: #fff;
+    padding: 12px 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.matiere-prof h3 {
+    margin: 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.matiere-prof span {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+/* ==========================
+   FILTRE
+========================== */
+
+.filtre-prof {
+    margin-bottom: 15px;
+}
+
+.filtre-prof label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.filtre-prof select {
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #dbe2ea;
+    background: #fff;
+    min-width: 220px;
+    font-size: 14px;
+    outline: none;
+}
+
+/* ==========================
+   STATS
+========================== */
+
+.stats-enseignant {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.stat-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-card h3 {
+    font-size: 22px;
+    color: #2563eb;
+    margin-bottom: 5px;
+}
+
+.stat-card p {
+    color: #64748b;
+    font-size: 13px;
+}
+
+/* ==========================
+   TABLEAU
+========================== */
+
+.table-container-enseignants {
     background: white;
-    border-radius: 24px;
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     overflow-x: auto;
 }
 
 /* TABLE */
-
-.emploi-table {
+.emploi-table-enseignants {
     width: 100%;
-    min-width: 1000px;
+    min-width: 850px;
     border-collapse: separate;
-    border-spacing: 10px;
+    border-spacing: 6px;
 }
 
 /* HEADER */
-
-.emploi-table th {
+.emploi-table-enseignants th {
     background: #2563eb;
     color: white;
-    padding: 16px;
-    border-radius: 14px;
-    text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: .5px;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 12px;
 }
 
-/* CELLS */
-
-.emploi-table td {
+/* CELLULES */
+.emploi-table-enseignants td {
     background: #f8fafc;
-    padding: 15px;
-    border-radius: 14px;
-    min-height: 90px;
+    padding: 10px;
+    border-radius: 10px;
     vertical-align: top;
     font-size: 13px;
-    transition: .3s;
+    transition: 0.2s;
+    text-align: center;
 }
 
 /* HORAIRE */
-
-.emploi-table td:first-child {
+.emploi-table-enseignants td:first-child {
     background: #e2e8f0;
-    text-align: center;
     font-weight: 700;
-    color: #1e293b;
 }
 
-/* COURS */
-
-.emploi-table td:not(:first-child) {
-    border-left: 4px solid #2563eb;
+/* CELLULE COURS */
+.emploi-table-enseignants td:not(:first-child) {
+    min-height: 60px;
 }
 
-.emploi-table td:hover {
+/* HOVER */
+.emploi-table-enseignants td:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(37,99,235,.12);
+    box-shadow: 0 4px 10px rgba(37,99,235,0.12);
 }
 
-/* PETIT TEXTE */
-
-.emploi-table small {
-    display: block;
-    margin-top: 5px;
-    color: #64748b;
-    font-size: 11px;
-}
-
-/* RESPONSIVE TABLETTE */
+/* ==========================
+   RESPONSIVE
+========================== */
 
 @media (max-width: 1200px) {
-
-    .main-content {
+    .main-content-enseignants {
         margin-left: 0;
         width: 100%;
-        padding: 20px;
+        padding: 18px;
     }
 
-    .topbar {
+    .topbar-enseignants {
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
     }
-
 }
-
-/* RESPONSIVE MOBILE */
 
 @media (max-width: 768px) {
-
-    .topbar h2 {
-        font-size: 24px;
-    }
-
-    .emploi-table {
-        min-width: 850px;
-    }
-
-    .emploi-table td,
-    .emploi-table th {
-        font-size: 12px;
-    }
-
-}
-
-/* PETITS ÉCRANS */
-
-@media (max-width: 480px) {
-
-    .main-content {
-        padding: 12px;
-    }
-
-    .table-container {
-        padding: 12px;
-    }
-
-    .emploi-table {
+    .emploi-table-enseignants {
         min-width: 750px;
     }
 
+    .stats-enseignant {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .filtre-prof select {
+        width: 100%;
+    }
+
+    .stats-enseignant {
+        grid-template-columns: 1fr;
+    }
+
+    .emploi-table-enseignants {
+        min-width: 700px;
+    }
 }
