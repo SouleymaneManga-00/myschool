@@ -13,7 +13,7 @@ include '../layouts/header.php';
 include '../layouts/sidebar_etudiants.php';
 ?>
 
-<link rel="stylesheet" href="../../assets/css/absence_etudiant.css">
+<link rel="stylesheet" href="../../assets/css/abscence_etudiant.css">
 
 <div class="main-content">
 
@@ -157,6 +157,6 @@ include '../layouts/sidebar_etudiants.php';
 </div>
 
 </div>
-<script src="../../assets/js/absence_etudiant.js"></script>
+<script src="../../assets/js/abscence_etudiant.js"></script>
 
 <?php include '../layouts/footer.php'; ?>
