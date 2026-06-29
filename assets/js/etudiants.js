@@ -64,7 +64,7 @@ document.querySelectorAll(".close-btn")
     btn.addEventListener("click", () => {
 
         btn.closest(".modal")
-           .classList.remove("active");
+           .classList.remove("active");A
 
     });
 

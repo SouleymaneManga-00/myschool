@@ -8,9 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!overlay || !btnOuvrir || !btnFermer || !btnAnnuler) {
         return;
     }
-
-    // le reste de ton code ici
-
     
 
 function ouvrirModal() {
@@ -51,3 +48,71 @@ searchInput.addEventListener('keyup', function () {
 });
 
 });
+
+const editModal = document.getElementById("editModal");
+
+document.querySelectorAll(".btn-edit").forEach(btn => {
+
+    btn.addEventListener("click", function(e){
+
+        e.preventDefault();
+
+        document.getElementById("edit-id").value =
+            this.dataset.id;
+
+        document.getElementById("edit-nom").value =
+            this.dataset.nom;
+
+        document.getElementById("edit-coeff").value =
+            this.dataset.coeff;
+
+        document.getElementById("edit-enseignant").value =
+            this.dataset.enseignant;
+
+        editModal.classList.add("active");
+
+    });
+
+});
+
+const deleteModal =
+    document.getElementById("deleteModal");
+
+document.querySelectorAll(".open-delete-modal").forEach(btn => {
+
+    btn.addEventListener("click", function(e){
+
+        e.preventDefault();
+
+        document.getElementById("delete-id").value =
+            this.dataset.id;
+
+        deleteModal.classList.add("active");
+
+    });
+
+});
+
+document.querySelectorAll(".close-btn").forEach(btn => {
+
+    btn.addEventListener("click", () => {
+
+        btn.closest(".modal")
+           .classList.remove("active");
+
+    });
+
+});
+
+document.querySelectorAll(".btn-cancel").forEach(btn => {
+
+    btn.addEventListener("click", () => {
+
+        btn.closest(".modal")
+           .classList.remove("active");
+
+    });
+
+});
+
+

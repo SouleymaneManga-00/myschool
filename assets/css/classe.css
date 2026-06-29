@@ -68,57 +68,29 @@
     border-color:#4FA3E3;
 }
 
-/* ================= TABLE ================= */
-
-.table-responsive{
-    overflow-x:auto;
-}
-
-.classes-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-.classes-table thead{
-    background:#f8fafc;
-}
-
-.classes-table th{
-    text-align:left;
-    padding:16px;
-    color:#64748b;
-}
-
-.classes-table td{
-    padding:18px 16px;
-    border-bottom:1px solid #eee;
-}
-
-.classes-table tr:hover{
-    background:#f8fbff;
-}
-
-/* ================= ACTIONS ================= */
+/* ================= ACTIONS TABLEAU ================= */
 
 .table-actions{
     display:flex;
-    gap:8px;
+    gap:10px;
 }
 
 .action{
-    border:none;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-    width:34px;
-    height:34px;
+    width:36px;
+    height:36px;
 
     border-radius:8px;
-    cursor:pointer;
+    text-decoration:none;
 
-    transition:1.2s;
+    transition:.3s;
 }
 
 .edit{
-    background:#e0f0ff;
+    background:#e0f2fe;
     color:#2563eb;
 }
 
@@ -160,12 +132,10 @@
 .modal-content{
     width:100%;
     max-width:500px;
-
     background:#fff;
-
     border-radius:16px;
     overflow:hidden;
-
+    position:relative;
     animation:popup .25s ease;
 }
 
@@ -236,40 +206,87 @@ form{
     box-shadow:0 0 0 3px rgba(79,163,227,.15);
 }
 
-/* ================= BUTTONS ================= */
+/* ================= MODAL SUPPRESSION ================= */
 
-.modal-buttons{
+#deleteModal .modal-content{
+    max-width:420px;
+    text-align:center;
+    padding:30px;
+}
+
+#deleteModal h2{
+    color:#dc2626;
+    margin-bottom:15px;
+}
+
+#deleteModal p{
+    color:#555;
+    margin-bottom:25px;
+    line-height:1.5;
+}
+
+#deleteModal form{
     display:flex;
-    justify-content:flex-end;
-    gap:10px;
-    margin-top:25px;
+    justify-content:center;
+    gap:12px;
+    padding:0;
 }
 
-.btn-cancel{
-    padding:11px 22px;
-
-    border:1px solid #ddd;
-    border-radius:10px;
-
-    background:white;
-    cursor:pointer;
-}
+/* ================= BOUTONS MODAL ================= */
 
 .btn-save{
-    padding:11px 22px;
-
-    border:none;
-    border-radius:10px;
-
     background:#4FA3E3;
     color:white;
-
+    border:none;
+    padding:12px 22px;
+    border-radius:10px;
     cursor:pointer;
     font-weight:600;
 }
 
 .btn-save:hover{
     background:#3a8fd1;
+}
+
+.btn-confirm-delete{
+    background:#dc2626;
+    color:white;
+    border:none;
+    padding:12px 22px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.btn-confirm-delete:hover{
+    background:#b91c1c;
+}
+
+.btn-cancel{
+    background:#e5e7eb;
+    color:#374151;
+    border:none;
+    padding:12px 22px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.btn-cancel:hover{
+    background:#d1d5db;
+}
+
+.close-btn{
+    position:absolute;
+    top:15px;
+    right:20px;
+    font-size:28px;
+    color:#777;
+    cursor:pointer;
+}
+
+.close-btn:hover{
+    color:#dc2626;
 }
 
 /* ================= PAGINATION ================= */

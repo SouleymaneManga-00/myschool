@@ -11,7 +11,10 @@ $matiere = $_SESSION['matiere'] ?? 'Algorithmique';
 
 include '../layouts/header.php';
 include '../layouts/sidebar_enseignants.php';
+
 ?>
+
+<link rel="stylesheet" href="../../assets/css/emploi_enseignants.css">
 
 <div class="main-content-enseignants">
 

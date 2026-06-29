@@ -1,10 +1,10 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
-    /* ==========================
-       RECHERCHE
-    ========================== */
+    /*=========================================
+        RECHERCHE
+    =========================================*/
 
-    const searchInput = document.getElementById("edt-search");
+    const searchInput = document.getElementById("searchInput");
 
     if (searchInput) {
 
@@ -12,298 +12,172 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const valeur = this.value.toLowerCase();
 
-            const lignes = document.querySelectorAll(
-                ".emploi-table tbody tr"
-            );
+            document.querySelectorAll("#emploiTable tr")
+                .forEach(ligne => {
 
-            lignes.forEach(ligne => {
+                    ligne.style.display =
+                        ligne.textContent
+                            .toLowerCase()
+                            .includes(valeur)
+                        ? ""
+                        : "none";
 
-                const texte = ligne.textContent.toLowerCase();
-
-                ligne.style.display =
-                    texte.includes(valeur)
-                    ? ""
-                    : "none";
-
-            });
+                });
 
         });
 
     }
 
-});
+    /*=========================================
+        MODALS
+    =========================================*/
 
+    const addModal = document.getElementById("addModal");
+    const editModal = document.getElementById("editModal");
+    const deleteModal = document.getElementById("deleteModal");
 
-/* ==========================
-   OUVRIR MODAL
-========================== */
+    /*=========================================
+        OUVRIR AJOUT
+    =========================================*/
 
-function ouvrirFormulaireCours() {
+    const btnOpenAdd = document.getElementById("btnOpenAdd");
 
-    const modal =
-        document.getElementById("modalCours");
+    if (btnOpenAdd) {
 
-    if (modal) {
-        modal.style.display = "flex";
+        btnOpenAdd.addEventListener("click", function () {
+
+            addModal.classList.add("active");
+
+        });
+
     }
 
-}
+    /*=========================================
+        MODIFIER
+    =========================================*/
 
+    document.querySelectorAll(".btn-edit")
+        .forEach(btn => {
 
-/* ==========================
-   FERMER MODAL
-========================== */
+            btn.addEventListener("click", function () {
 
-function fermerModal() {
+                editModal.classList.add("active");
 
-    const modal =
-        document.getElementById("modalCours");
+                document.getElementById("edit-id").value =
+                    this.dataset.id;
 
-    if (modal) {
-        modal.style.display = "none";
-    }
+                document.getElementById("edit-jour").value =
+                    this.dataset.jour;
 
-    const matiere =
-        document.getElementById("matiere");
+                document.getElementById("edit-heure-debut").value =
+                    this.dataset.debut;
 
-    const salle =
-        document.getElementById("salle");
+                document.getElementById("edit-heure-fin").value =
+                    this.dataset.fin;
 
-    const jour =
-        document.getElementById("jour");
+                document.getElementById("edit-classe").value =
+                    this.dataset.classe;
 
-    const heure =
-        document.getElementById("heure");
+                document.getElementById("edit-matiere").value =
+                    this.dataset.matiere;
 
-    if (matiere) matiere.value = "";
-    if (salle) salle.value = "";
-    if (jour) jour.value = "";
-    if (heure) heure.value = "";
+                document.getElementById("edit-enseignant").value =
+                    this.dataset.enseignant;
 
-}
+            });
 
+        });
 
-/* ==========================
-   FERMETURE SI CLIC DEHORS
-========================== */
+    /*=========================================
+        SUPPRIMER
+    =========================================*/
 
-window.addEventListener("click", (event) => {
+    document.querySelectorAll(".btn-delete")
+        .forEach(btn => {
 
-    const modal =
-        document.getElementById("modalCours");
+            btn.addEventListener("click", function () {
 
-    if (
-        modal &&
-        event.target === modal
-    ) {
-        fermerModal();
-    }
+                deleteModal.classList.add("active");
 
-});
+                document.getElementById("delete-id").value =
+                    this.dataset.id;
 
+            });
 
-/* ==========================
-   TOUCHE ECHAP
-========================== */
+        });
 
-document.addEventListener("keydown", (e) => {
+    /*=========================================
+        FERMER AVEC X
+    =========================================*/
 
-    if (e.key === "Escape") {
-        fermerModal();
-    }
+    document.querySelectorAll(".close-btn")
+        .forEach(btn => {
 
-});
+            btn.addEventListener("click", function () {
 
+                this.closest(".modal")
+                    .classList.remove("active");
 
-/* ==========================
-   AJOUT D'UN COURS
-========================== */
+            });
 
-function ajouterCoursModal() {
+        });
 
-    let heure =
-        document.getElementById("heure")
-        .value.trim();
+    /*=========================================
+        ANNULER
+    =========================================*/
 
-    let jour =
-        document.getElementById("jour")
-        .value;
+    document.querySelectorAll(".btn-cancel")
+        .forEach(btn => {
 
-    let matiere =
-        document.getElementById("matiere")
-        .value.trim();
+            btn.addEventListener("click", function () {
 
-    let salle =
-        document.getElementById("salle")
-        .value.trim();
+                this.closest(".modal")
+                    .classList.remove("active");
 
-    if (
-        !heure ||
-        !jour ||
-        !matiere ||
-        !salle
-    ) {
-        alert(
-            "Veuillez remplir tous les champs."
-        );
-        return;
-    }
+            });
 
-    const table =
-        document.querySelector(
-            ".emploi-table tbody"
-        );
+        });
 
-    const lignes =
-        table.querySelectorAll("tr");
+    /*=========================================
+        CLIC EXTERIEUR
+    =========================================*/
 
-    let ligneTrouvee = null;
+    window.addEventListener("click", function (e) {
 
-    lignes.forEach(ligne => {
+        if (e.target === addModal) {
 
-        const heureCellule =
-            ligne.cells[0]
-            .textContent
-            .trim();
+            addModal.classList.remove("active");
 
-        if (
-            heureCellule === heure
-        ) {
-            ligneTrouvee = ligne;
+        }
+
+        if (e.target === editModal) {
+
+            editModal.classList.remove("active");
+
+        }
+
+        if (e.target === deleteModal) {
+
+            deleteModal.classList.remove("active");
+
         }
 
     });
 
-    const jours = {
+    /*=========================================
+        TOUCHE ECHAP
+    =========================================*/
 
-        "Lundi": 1,
-        "Mardi": 2,
-        "Mercredi": 3,
-        "Jeudi": 4,
-        "Vendredi": 5,
-        "Samedi": 6
+    document.addEventListener("keydown", function (e) {
 
-    };
+        if (e.key === "Escape") {
 
-    if (!jours[jour]) {
-
-        alert("Jour invalide");
-
-        return;
-
-    }
-
-    const colonne = jours[jour];
-
-    const contenuCours = `
-
-        <div class="cours">
-
-            <span>${matiere}</span>
-
-            <small>${salle}</small>
-
-            <button
-                class="edt-btn-delete"
-                onclick="supprimerCours(this)"
-            >
-                ×
-            </button>
-
-        </div>
-
-    `;
-
-    if (ligneTrouvee) {
-
-        ligneTrouvee
-        .cells[colonne]
-        .innerHTML = contenuCours;
-
-    }
-
-    else {
-
-        const nouvelleLigne =
-            document.createElement("tr");
-
-        nouvelleLigne.innerHTML = `
-
-            <td>
-                <strong>${heure}</strong>
-            </td>
-
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-
-        `;
-
-        nouvelleLigne
-        .cells[colonne]
-        .innerHTML = contenuCours;
-
-        table.appendChild(
-            nouvelleLigne
-        );
-
-    }
-
-    fermerModal();
-
-}
-
-
-/* ==========================
-   SUPPRESSION COURS
-========================== */
-
-function supprimerCours(btn) {
-
-    const cours =
-        btn.parentElement;
-
-    const td =
-        cours.parentElement;
-
-    const tr =
-        td.parentElement;
-
-    cours.remove();
-
-    let resteCours = false;
-
-    for (
-        let i = 1;
-        i < tr.cells.length;
-        i++
-    ) {
-
-        const contenu =
-            tr.cells[i]
-            .innerHTML
-            .trim();
-
-        if (
-            contenu !== "" &&
-            contenu !== "-"
-        ) {
-
-            resteCours = true;
-
-            break;
+            addModal.classList.remove("active");
+            editModal.classList.remove("active");
+            deleteModal.classList.remove("active");
 
         }
 
-    }
+    });
 
-    if (!resteCours) {
-
-        tr.remove();
-
-    }
-
-}
+});

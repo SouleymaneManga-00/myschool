@@ -62,6 +62,14 @@ include '../layouts/sidebar_admin.php';
     </div>
 <?php endif; ?>
 
+ <?php if($error): ?>
+
+ <small class="error-message">
+<?= htmlspecialchars($error); ?>
+</small>
+
+<?php endif; ?>
+
 
 <!-- formulaire d'ajout  -->
 
@@ -108,13 +116,7 @@ include '../layouts/sidebar_admin.php';
                     name="email"
                     required
                 >
-                <?php if($error): ?>
 
-                    <small class="error-message">
-                        <?= htmlspecialchars($error); ?>
-                    </small>
-
-                <?php endif; ?>
             </div>
 
             <div class="form-group">
@@ -278,6 +280,16 @@ include '../layouts/sidebar_admin.php';
         </table>
 
     </div>
+
+    
+    <div class="pagination">
+                    <button><i class="fa-solid fa-angle-left"></i></button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button><i class="fa-solid fa-angle-right"></i></button>
+             </div>
+            <div id="pagination" class="pagination"></div>
 
 </div>
 

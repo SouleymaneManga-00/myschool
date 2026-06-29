@@ -9,13 +9,44 @@ if (
     exit();
 }
 
+require_once '../../controllers/ClasseControllers.php';
+
+$classeController = new ClasseController();
+
+$classeController->handleCreate();
+$classeController->handleUpdate();
+$classeController->handleDelete();
+
+$classes = $classeController->index();
+
+$message = $_SESSION['success'] ?? '';
+$error = $_SESSION['error'] ?? '';
+
+unset($_SESSION['success']);
+unset($_SESSION['error']);
+
+
 include '../layouts/header.php';
 include '../layouts/sidebar_admin.php';
+
 ?>
 
 <link rel="stylesheet" href="../../assets/css/classe.css">
 
 <div class="main-content">
+
+<?php if($message): ?>
+    <div class="alert success">
+        <?= $message ?>
+    </div>
+<?php endif; ?>
+
+<?php if($error): ?>
+    <div class="alert error">
+        <?= $error ?>
+    </div>
+<?php endif; ?>
+
 
     <div class="topbar">
         <h2>Gestion des Classes</h2>
@@ -49,40 +80,38 @@ include '../layouts/sidebar_admin.php';
                 <span class="close-modal">&times;</span>
             </div>
 
-            <form>
+            <form method="POST">
+                        <div class="form-group">
 
-                <div class="form-group">
-                    <label>Nom de la classe</label>
-                    <input type="text" placeholder="Ex: L1 Informatique">
-                </div>
+                <label>Nom de la classe</label>
 
-                <div class="form-group">
-                    <label>Niveau</label>
-                    <select>
-                        <option>Sélectionner</option>
-                        <option>L1</option>
-                        <option>L2</option>
-                        <option>L3</option>
-                        <option>M1</option>
-                        <option>M2</option>
-                    </select>
-                </div>
+                <input
+                    type="text"
+                    name="nom"
+                    required
+                >
 
-                <div class="form-group">
-                    <label>Effectif</label>
-                    <input type="number" placeholder="Nombre d'étudiants">
-                </div>
+            </div>
 
-                <div class="modal-buttons">
-                    <button type="button" id="btnCancel" class="btn-cancel">
-                        Annuler
-                    </button>
+            <div class="modal-buttons">
 
-                    <button type="submit" class="btn-save">
-                        <i class="fa-solid fa-floppy-disk"></i>
-                        Enregistrer
-                    </button>
-                </div>
+                <button
+                    type="button"
+                    id="btnCancel"
+                    class="btn-cancel"
+                >
+                    Annuler
+                </button>
+
+                <button
+                    type="submit"
+                    name="add_classe"
+                    class="btn-save"
+                >
+                    Enregistrer
+                </button>
+
+            </div>
 
             </form>
 
@@ -113,51 +142,43 @@ include '../layouts/sidebar_admin.php';
                     <tr>
                         <th>ID</th>
                         <th>Nom Classe</th>
-                        <th>Niveau</th>
-                        <th>Effectif</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
+                    <?php foreach($classes as $classe): ?>
 
                     <tr>
-                        <td>1</td>
-                        <td>L1 Informatique</td>
-                        <td>L1</td>
-                        <td>45</td>
+
+                        <td><?= $classe['id']; ?></td>
+
+                        <td><?= htmlspecialchars($classe['nom']); ?></td>
 
                         <td class="table-actions">
 
-                            <button class="action edit">
+                            <a
+                                href="#"
+                                class="action edit btn-edit"
+                                data-id="<?= $classe['id']; ?>"
+                                data-nom="<?= htmlspecialchars($classe['nom']); ?>"
+                            >
                                 <i class="fa-solid fa-pen"></i>
-                            </button>
+                            </a>
 
-                            <button class="action delete">
+                            <a
+                                href="#"
+                                class="action delete btn-delete"
+                                data-id="<?= $classe['id']; ?>"
+                            >
                                 <i class="fa-solid fa-trash"></i>
-                            </button>
+                            </a>
 
                         </td>
+
                     </tr>
 
-                    <tr>
-                        <td>2</td>
-                        <td>L2 Informatique</td>
-                        <td>L2</td>
-                        <td>38</td>
-
-                        <td class="table-actions">
-
-                            <button class="action edit">
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-
-                            <button class="action delete">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-
-                        </td>
-                    </tr>
+                    <?php endforeach; ?>
 
                 </tbody>
 
@@ -184,7 +205,97 @@ include '../layouts/sidebar_admin.php';
 
     </div>
 
+    <!-- modifier une classe -->
+
+<div class="modal" id="editModal">
+
+    <div class="modal-content">
+
+        <span class="close-btn">&times;</span>
+        <br>
+        <h2 style="text-align:center;">Modifier la classe</h2>
+
+        <form method="POST">
+
+            <input
+                type="hidden"
+                name="id"
+                id="edit-id"
+            >
+
+            <div class="form-group">
+
+                <label>Nom</label>
+
+                <input
+                    type="text"
+                    name="nom"
+                    id="edit-nom"
+                    required
+                >
+
+            </div>
+
+            <button
+                type="submit"
+                name="update_classe"
+                class="btn-save"
+            >
+                Modifier
+            </button>
+
+        </form>
+
+    </div>
+
 </div>
+
+<!-- supprimer une classe -->
+
+<div class="modal" id="deleteModal">
+
+    <div class="modal-content">
+
+        <span class="close-btn">&times;</span>
+
+        <h2>Supprimer la classe</h2>
+
+        <p>
+            Voulez-vous vraiment supprimer cette classe ?
+        </p>
+
+        <form method="POST">
+
+            <input
+                type="hidden"
+                name="id"
+                id="delete-id"
+            >
+
+            <button
+                type="submit"
+                name="delete_classe"
+                class="btn-confirm-delete"
+            >
+                Supprimer
+            </button>
+
+            <button
+                type="button"
+                class="btn-cancel"
+            >
+                Annuler
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+</div>
+
 
 <script src="../../assets/js/classe.js"></script>
 

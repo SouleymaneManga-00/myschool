@@ -9,8 +9,30 @@ if (
     exit();
 }
 
+
+require_once '../../controllers/MatiereControllers.php';
+require_once '../../controllers/EnseignantsControllers.php';
+
+$matiereController = new MatiereController();
+$enseignantController = new EnseignantController();
+
+$matiereController->handleCreate();
+$matiereController->handleUpdate();
+$matiereController->handleDelete();
+
+$matieres = $matiereController->index();
+$enseignants = $enseignantController->index();
+
+$message = $_SESSION['success'] ?? '';
+$error = $_SESSION['error'] ?? '';
+
+unset($_SESSION['success']);
+unset($_SESSION['error']);
+
+
 include '../layouts/header.php';
 include '../layouts/sidebar_admin.php';
+
 ?>
 
 <link rel="stylesheet" href="../../assets/css/matieres.css">
@@ -43,7 +65,7 @@ include '../layouts/sidebar_admin.php';
             </div>
 
             <div class="mat-modal-body">
-                <form method="POST" action="../../controllers/MatiereControllers.php">
+                <form method="POST">
 
                     <div class="mat-field">
                         <label for="nom">Nom de la matière</label>
@@ -60,20 +82,27 @@ include '../layouts/sidebar_admin.php';
                         <select id="enseignant_id" name="enseignant_id" required>
                             <option value="" disabled selected>— Choisir un enseignant —</option>
                             <?php if (!empty($enseignants)): ?>
-                                <?php foreach ($enseignants as $e): ?>
+                            <?php foreach ($enseignants as $e): ?>
                                     <option value="<?= $e['id'] ?>">
-                                        <?= htmlspecialchars($e['prenom'] . ' ' . $e['nom']) ?>
+                                        <?= htmlspecialchars(
+                                            $e['prenom'] . ' ' . $e['nom']
+                                        ) ?>
                                     </option>
-                                <?php endforeach; ?>
+                            <?php endforeach; ?>
                             <?php endif; ?>
                         </select>
                     </div>
 
                     <div class="mat-modal-actions">
-                        <button type="button" class="btn-annuler" id="btnAnnuler">Annuler</button>
-                        <button type="submit" class="btn-sauvegarder">
-                            <i class="fa-solid fa-floppy-disk"></i> Enregistrer
+
+                        <button type="button" class="btn-annuler" id="btnAnnuler">
+                            Annuler 
                         </button>
+
+                        <button type="submit" name="add_matiere" class="btn-sauvegarder">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                             Enregistrer
+                            </button>
                     </div>
 
                 </form>
@@ -102,7 +131,6 @@ include '../layouts/sidebar_admin.php';
                     </tr>
                 </thead>
                 <tbody id="matieresTable">
-                    <?php if (!empty($matieres)): ?>
                         <?php foreach ($matieres as $index => $m): ?>
                         <tr>
                             <td><?= $index + 1 ?></td>
@@ -110,89 +138,177 @@ include '../layouts/sidebar_admin.php';
                             <td>
                                 <span class="mat-coeff"><?= $m['coeff'] ?></span>
                             </td>
-                            <td><?= htmlspecialchars($m['prenom_enseignant'] . ' ' . $m['nom_enseignant']) ?></td>
+                            <td><?= htmlspecialchars($m['prenom'] . ' ' . $m['nom_enseignant']) ?></td>
                             <td class="mat-actions">
-                                <a href="../../controllers/MatiereControllers.php?action=edit&id=<?= $m['id'] ?>"
-                                   class="btn-edit" title="Modifier">
+
+                                <a
+                                    href="#"
+                                    class="btn-edit"
+                                    data-id="<?= $m['id']; ?>"
+                                    data-nom="<?= htmlspecialchars($m['nom']); ?>"
+                                    data-coeff="<?= $m['coeff']; ?>"
+                                    data-enseignant="<?= $m['enseignant_id']; ?>"
+                                >
                                     <i class="fa-solid fa-pen"></i>
                                 </a>
-                                <a href="../../controllers/MatiereControllers.php?action=delete&id=<?= $m['id'] ?>"
-                                   class="btn-delete"
-                                   title="Supprimer"
-                                   onclick="return confirm('Supprimer cette matière ?')">
+
+                                <a
+                                    href="#"
+                                    class="open-delete-modal"
+                                    data-id="<?= $m['id']; ?>"
+                                >
                                     <i class="fa-solid fa-trash"></i>
                                 </a>
+
                             </td>
                         </tr>
                         <?php endforeach; ?>
-                    <?php else: ?>
-                        <!-- Données de démonstration (à retirer quand le contrôleur est branché) -->
-                        <tr>
-                            <td>1</td>
-                            <td>Mathématiques</td>
-                            <td><span class="mat-coeff">4</span></td>
-                            <td>Jean Dupont</td>
-                            <td class="mat-actions">
-                                <a href="#" class="btn-edit"><i class="fa-solid fa-pen"></i></a>
-                                <a href="#" class="btn-delete" onclick="return confirm('Supprimer cette matière ?')"><i class="fa-solid fa-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Physique-Chimie</td>
-                            <td><span class="mat-coeff">3</span></td>
-                            <td>Marie Diallo</td>
-                            <td class="mat-actions">
-                                <a href="#" class="btn-edit"><i class="fa-solid fa-pen"></i></a>
-                                <a href="#" class="btn-delete" onclick="return confirm('Supprimer cette matière ?')"><i class="fa-solid fa-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Histoire-Géographie</td>
-                            <td><span class="mat-coeff">2</span></td>
-                            <td>Oumar Ndiaye</td>
-                            <td class="mat-actions">
-                                <a href="#" class="btn-edit"><i class="fa-solid fa-pen"></i></a>
-                                <a href="#" class="btn-delete" onclick="return confirm('Supprimer cette matière ?')"><i class="fa-solid fa-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Français</td>
-                            <td><span class="mat-coeff">3</span></td>
-                            <td>Fatou Seck</td>
-                            <td class="mat-actions">
-                                <a href="#" class="btn-edit"><i class="fa-solid fa-pen"></i></a>
-                                <a href="#" class="btn-delete" onclick="return confirm('Supprimer cette matière ?')"><i class="fa-solid fa-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Anglais</td>
-                            <td><span class="mat-coeff">2</span></td>
-                            <td>Ibrahima Fall</td>
-                            <td class="mat-actions">
-                                <a href="#" class="btn-edit"><i class="fa-solid fa-pen"></i></a>
-                                <a href="#" class="btn-delete" onclick="return confirm('Supprimer cette matière ?')"><i class="fa-solid fa-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>Informatique</td>
-                            <td><span class="mat-coeff">4</span></td>
-                            <td>Aminata Ba</td>
-                            <td class="mat-actions">
-                                <a href="#" class="btn-edit"><i class="fa-solid fa-pen"></i></a>
-                                <a href="#" class="btn-delete" onclick="return confirm('Supprimer cette matière ?')"><i class="fa-solid fa-trash"></i></a>
-                            </td>
-                        </tr>
-                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
+           <div class="pagination">
+                    <button><i class="fa-solid fa-angle-left"></i></button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button><i class="fa-solid fa-angle-right"></i></button>
+             </div>
+            <div id="pagination" class="pagination"></div>
+
+</div>
 
     </div>
+    
+<!-- modifier une matiere -->
+
+    <div class="modal" id="editModal">
+
+    <div class="modal-content">
+
+        <span class="close-btn">&times;</span>
+
+        <h2>Modifier la matière</h2>
+
+        <form method="POST">
+
+            <input
+                type="hidden"
+                name="id"
+                id="edit-id"
+            >
+
+            <div class="form-group">
+
+                <label>Nom</label>
+
+                <input
+                    type="text"
+                    name="nom"
+                    id="edit-nom"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Coefficient</label>
+
+                <input
+                    type="number"
+                    name="coeff"
+                    id="edit-coeff"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Enseignant</label>
+
+                <select
+                    name="enseignant_id"
+                    id="edit-enseignant"
+                    required
+                >
+
+                    <?php foreach($enseignants as $enseignant): ?>
+
+                        <option
+                            value="<?= $enseignant['id']; ?>"
+                        >
+
+                            <?= htmlspecialchars(
+                                $enseignant['prenom']
+                                . ' ' .
+                                $enseignant['nom']
+                            ); ?>
+
+                        </option>
+
+                    <?php endforeach; ?>
+
+                </select>
+
+            </div>
+
+            <button
+                type="submit"
+                name="update_matiere"
+                class="btn-sauvegarder"
+            >
+                Modifier
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- supprimer une matiere -->
+
+<div class="modal" id="deleteModal">
+
+    <div class="modal-content">
+
+        <span class="close-btn">&times;</span>
+
+        <h2>Supprimer la matière</h2>
+
+        <p>
+            Voulez-vous vraiment supprimer cette matière ?
+        </p>
+
+        <form method="POST">
+
+            <input
+                type="hidden"
+                name="id"
+                id="delete-id"
+            >
+
+            <button
+                type="submit"
+                name="delete_matiere"
+                class="btn-delete"
+            >
+                Supprimer
+            </button>
+
+            <button
+                type="button"
+                class="btn-cancel"
+            >
+                Annuler
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
 
 </div>
 
