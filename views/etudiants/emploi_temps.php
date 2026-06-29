@@ -10,6 +10,9 @@ include '../layouts/header.php';
 include '../layouts/sidebar_etudiants.php';
 ?>
 
+<link rel="stylesheet" href="../../assets/css/emploi_etudiants.css">
+
+
 <div class="main-content">
 
     <!-- TOPBAR -->
