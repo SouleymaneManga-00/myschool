@@ -35,6 +35,9 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../../assets/css/login.css">
     <link rel="stylesheet" href="../../assets/css/forms.css">
 
+    <link rel="stylesheet" href="../../assets/css/enseignants.css">
+    <link rel="stylesheet" href="../../assets/css/emploi_temps.css">
+    <link rel="stylesheet" href="../../assets/css/emploi_etudiants.css">
 
     <link
         rel="stylesheet"
@@ -44,6 +47,5 @@ if (isset($_SESSION['id'])) {
 </head>
 
 <body>
-
 
 <div class="container">
