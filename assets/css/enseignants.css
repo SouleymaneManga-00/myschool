@@ -231,6 +231,164 @@ color:#dc2626;
 }
 
 /* ==========================
+   MODALS CRUD
+========================== */
+
+.modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal.active{
+    display: flex;
+}
+
+.modal-content{
+    background: #fff;
+    width: 500px;
+    max-width: 90%;
+    border-radius: 12px;
+    padding: 25px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,.2);
+    animation: modalFade .3s ease;
+}
+
+@keyframes modalFade{
+    from{
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-content h2{
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.close-btn{
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 25px;
+    cursor: pointer;
+    color: #777;
+}
+
+.close-btn:hover{
+    color: #e74c3c;
+}
+
+/* ==========================
+   FORMULAIRES
+========================== */
+
+.form-group{
+    margin-bottom: 15px;
+}
+
+.form-group label{
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.form-group input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.form-group input:focus{
+    outline: none;
+    border-color: #3498db;
+}
+
+/* ==========================
+   BOUTONS
+========================== */
+
+.btn-primary{
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-primary:hover{
+    background: #2980b9;
+}
+
+.btn-supprimer{
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-supprimer:hover{
+    background: #c0392b;
+}
+
+.btn-cancel{
+    background: #95a5a6;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn-cancel:hover{
+    background: #7f8c8d;
+}
+
+#deleteModal .modal-content{
+    width: 420px;
+    text-align: center;
+}
+
+#deleteModal p{
+    margin: 20px 0;
+    color: #555;
+    line-height: 1.5;
+}
+
+.alert{
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.alert.success{
+    background: #27ae60;
+}
+
+.alert.error{
+    background: #e74c3c;
+}
+
+/* ==========================
 PAGINATION
 ========================== */
 
@@ -261,7 +419,7 @@ RESPONSIVE
 
 @media(max-width:768px){
 
-```
+
 .card{
     padding:18px;
 }
@@ -278,6 +436,5 @@ RESPONSIVE
 .btn-delete{
     width:100%;
 }
-```
 
 }

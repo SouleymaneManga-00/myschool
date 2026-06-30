@@ -9,327 +9,680 @@ if (
     exit();
 }
 
+require_once '../../controllers/EmploiTempsControllers.php';
+require_once '../../controllers/ClasseControllers.php';
+require_once '../../controllers/MatiereControllers.php';
+require_once '../../controllers/EnseignantsControllers.php';
+
+$emploiController = new EmploiDuTempsController();
+$classeController = new ClasseController();
+$matiereController = new MatiereController();
+$enseignantController = new EnseignantController();
+
+$emploiController->handleCreate();
+$emploiController->handleUpdate();
+$emploiController->handleDelete();
+
+$emplois = $emploiController->index();
+$classes = $classeController->index();
+$matieres = $matiereController->index();
+$enseignants = $enseignantController->index();
+
+$message = $_SESSION['success'] ?? '';
+$error   = $_SESSION['error'] ?? '';
+
+unset($_SESSION['success']);
+unset($_SESSION['error']);
+
 include '../layouts/header.php';
 include '../layouts/sidebar_admin.php';
-
-$niveau = $_GET['niveau'] ?? 'L1';
 ?>
 
 <link rel="stylesheet" href="../../assets/css/emploi_temps.css">
 
 <div class="main-content">
 
-    <div class="edt-header">
+    <div class="topbar">
 
         <div>
+
             <h2>
-                Gestion de l'Emploi du Temps
-                (<?= htmlspecialchars($niveau); ?>)
+                Gestion des Emplois du Temps
             </h2>
+
         </div>
 
-        <div class="edt-user">
-            Bonjour <?= htmlspecialchars($_SESSION['prenom']); ?>
+        <div class="user">
+
+            Bonjour
+            <?= htmlspecialchars($_SESSION['prenom']); ?>
+
         </div>
 
     </div>
 
-    <div class="edt-toolbar">
+    <?php if($message): ?>
 
-        <div class="edt-filtres">
+<div class="alert success">
 
-            <select
-                id="select-classe"
-                class="edt-select"
-                onchange="window.location.href='?niveau=' + this.value;"
-            >
+    <?= $message; ?>
 
-                <option
-                    value="L1"
-                    <?= $niveau === 'L1' ? 'selected' : ''; ?>
-                >
-                    Licence 1 (L1)
-                </option>
-
-                <option
-                    value="L2"
-                    <?= $niveau === 'L2' ? 'selected' : ''; ?>
-                >
-                    Licence 2 (L2)
-                </option>
-
-            </select>
-
-            <input
-                type="text"
-                id="edt-search"
-                class="edt-search"
-                placeholder="Rechercher un cours..."
-            >
-
-        </div>
-
-        <button
-            class="edt-btn-ajouter"
-            onclick="ouvrirFormulaireCours()"
-        >
-            + Ajouter un cours
-        </button>
-
-    </div>
-
-    <div class="edt-table-container">
-
-<?php if ($niveau === 'L1'): ?>
-
-        <table class="emploi-table">
-
-            <thead>
-
-                <tr>
-                    <th>Heure</th>
-                    <th>Lundi</th>
-                    <th>Mardi</th>
-                    <th>Mercredi</th>
-                    <th>Jeudi</th>
-                    <th>Vendredi</th>
-                    <th>Samedi</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                <tr>
-                    <td><strong>08h00 - 10h00</strong></td>
-                    <td>Algorithmique L1<br><small>Amphi A</small></td>
-                    <td>Architecture L1<br><small>Salle 102</small></td>
-                    <td>Base de Données L1<br><small>Amphi B</small></td>
-                    <td>Systèmes d’Exploitation<br><small>Labo Info</small></td>
-                    <td>Développement Web<br><small>Salle 204</small></td>
-                    <td>-</td>
-                </tr>
-
-                <tr>
-                    <td><strong>10h15 - 12h15</strong></td>
-                    <td>Mathématiques</td>
-                    <td>Algorithmique TD</td>
-                    <td>Réseaux</td>
-                    <td>Anglais</td>
-                    <td>Base de Données TP</td>
-                    <td>-</td>
-                </tr>
-
-                <tr>
-                    <td><strong>13h00 - 15h00</strong></td>
-                    <td>Programmation Web</td>
-                    <td>Maths Appliquées</td>
-                    <td>Analyse Algo</td>
-                    <td>Réseaux</td>
-                    <td>Projet Tutoré</td>
-                    <td>-</td>
-                </tr>
-
-                <tr>
-                    <td><strong>15h15 - 17h15</strong></td>
-                    <td>Développement Mobile</td>
-                    <td>BDD TD</td>
-                    <td>Culture Numérique</td>
-                    <td>Linux</td>
-                    <td>TP Général</td>
-                    <td>-</td>
-                </tr>
-
-            </tbody>
-
-        </table>
-
-<?php else: ?>
-
-        <table class="emploi-table">
-
-            <thead>
-
-                <tr>
-                    <th>Heure</th>
-                    <th>Lundi</th>
-                    <th>Mardi</th>
-                    <th>Mercredi</th>
-                    <th>Jeudi</th>
-                    <th>Vendredi</th>
-                    <th>Samedi</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                <tr>
-                    <td><strong>08h00 - 10h00</strong></td>
-                    <td>Java Avancé</td>
-                    <td>Graphes</td>
-                    <td>Systèmes Info</td>
-                    <td>Génie Logiciel</td>
-                    <td>Applications Mobiles</td>
-                    <td>-</td>
-                </tr>
-
-                <tr>
-                    <td><strong>10h15 - 12h15</strong></td>
-                    <td>Routage IP</td>
-                    <td>Java TP</td>
-                    <td>SQL Avancé</td>
-                    <td>Management</td>
-                    <td>Sécurité</td>
-                    <td>-</td>
-                </tr>
-
-                <tr>
-                    <td><strong>13h00 - 15h00</strong></td>
-                    <td>Web Avancé</td>
-                    <td>Réseaux</td>
-                    <td>UML</td>
-                    <td>Gestion Projet</td>
-                    <td>Cloud</td>
-                    <td>-</td>
-                </tr>
-
-                <tr>
-                    <td><strong>15h15 - 17h15</strong></td>
-                    <td>Framework Java</td>
-                    <td>Projet Groupe</td>
-                    <td>Big Data</td>
-                    <td>Cybersécurité</td>
-                    <td>Veille Tech</td>
-                    <td>-</td>
-                </tr>
-
-            </tbody>
-
-        </table>
+</div>
 
 <?php endif; ?>
 
+<?php if($error): ?>
+
+<div class="alert error">
+
+    <?= $error; ?>
+
+</div>
+
+<?php endif; ?>
+
+<div class="toolbar">
+
+    <button
+        class="btn-ajouter"
+        id="btnOpenAdd"
+    >
+
+        <i class="fa-solid fa-plus"></i>
+
+        Ajouter un cours
+
+    </button>
+
+    <br>
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Rechercher un cours..."
+    >
+
+</div>
+<br>
+
+<div class="table-container">
+
+    <div class="table-header">
+
+        <h3>
+
+            Liste des cours
+
+        </h3>
+
     </div>
 
-    <div class="edt-pagination">
+    <div class="table-responsive">
 
-        <button>
-            <i class="fa-solid fa-angle-left"></i>
-        </button>
+        <table>
 
-        <button class="active">1</button>
-        <button>2</button>
-        <button>3</button>
+            <thead>
 
-        <button>
-            <i class="fa-solid fa-angle-right"></i>
-        </button>
+                <tr>
+
+                    <th>Jour</th>
+
+                    <th>Début</th>
+
+                    <th>Fin</th>
+
+                    <th>Classe</th>
+
+                    <th>Matière</th>
+
+                    <th>Enseignant</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="emploiTable">
+
+            <?php foreach($emplois as $emploi): ?>
+
+            <tr>
+
+                <td>
+
+                    <span class="badge badge-jour">
+
+                        <?= htmlspecialchars($emploi['jour']); ?>
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <?= htmlspecialchars($emploi['heure_debut']); ?>
+
+                </td>
+
+                <td>
+
+                    <?= htmlspecialchars($emploi['heure_fin']); ?>
+
+                </td>
+
+                <td>
+
+                    <span class="badge badge-classe">
+
+                        <?= htmlspecialchars($emploi['classe']); ?>
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <?= htmlspecialchars($emploi['matiere']); ?>
+
+                </td>
+
+                <td>
+
+                    <?= htmlspecialchars(
+                        $emploi['prenom']
+                        . ' ' .
+                        $emploi['enseignant']
+                    ); ?>
+
+                </td>
+
+                <td class="actions">
+
+                    <button
+
+                        class="btn-edit"
+
+                        data-id="<?= $emploi['id']; ?>"
+
+                        data-jour="<?= $emploi['jour']; ?>"
+
+                        data-debut="<?= $emploi['heure_debut']; ?>"
+
+                        data-fin="<?= $emploi['heure_fin']; ?>"
+
+                        data-classe="<?= $emploi['id_classe']; ?>"
+
+                        data-matiere="<?= $emploi['id_matiere']; ?>"
+
+                        data-enseignant="<?= $emploi['id_enseignant']; ?>"
+
+                    >
+
+                        <i class="fa-solid fa-pen"></i>
+
+                    </button>
+
+                    <button
+
+                        class="btn-delete"
+
+                        data-id="<?= $emploi['id']; ?>"
+
+                    >
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            <?php endforeach; ?>
+
+
+             </tbody>
+
+            </table>
+
+            </div>
+
+        </div>
+
+                   <div class="pagination">
+                    <button><i class="fa-solid fa-angle-left"></i></button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button><i class="fa-solid fa-angle-right"></i></button>
+             </div>
+            <div id="pagination" class="pagination"></div>
+
+</div>
+        </div>
+
+    <!-- ===========================
+      MODAL AJOUT
+=========================== -->
+
+<div class="modal" id="addModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h3>
+                <i class="fa-solid fa-calendar-plus"></i>
+                Ajouter un cours
+            </h3>
+
+        </div>
+        
+        <form method="POST">
+
+    <div class="form-grid">
+
+        <div class="form-group">
+
+            <label>Jour</label>
+
+            <select name="jour" required>
+                <option value="">Choisir</option>
+                <option>Lundi</option>
+                <option>Mardi</option>
+                <option>Mercredi</option>
+                <option>Jeudi</option>
+                <option>Vendredi</option>
+                <option>Samedi</option>
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Classe</label>
+
+            <select name="id_classe" required>
+
+                <option value="">Classe</option>
+
+                <!-- tes classes -->
+             <option value="">Choisir...</option>
+
+                <?php foreach($classes as $classe): ?>
+
+                    <option value="<?= $classe['id']; ?>">
+
+                      <?= htmlspecialchars($classe['nom']); ?>
+
+                        </option>
+
+                <?php endforeach; ?>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Heure début</label>
+
+            <input
+                type="time"
+                name="heure_debut"
+                required
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Heure fin</label>
+
+            <input
+                type="time"
+                name="heure_fin"
+                required
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Matière</label>
+
+            <select name="id_matiere" required>
+
+                <!-- matières -->
+            
+                 <option value="">Choisir...</option>
+
+                <?php foreach($matieres as $matiere): ?>
+
+                <option value="<?= $matiere['id']; ?>">
+
+                    <?= htmlspecialchars($matiere['nom']); ?>
+
+                 </option>
+
+                <?php endforeach; ?>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Enseignant</label>
+
+            <select
+                name="id_enseignant"
+                required
+            >
+
+                <!-- enseignants -->
+
+                <option value="">Choisir...</option>
+
+            <?php foreach($enseignants as $enseignant): ?>
+
+                <option value="<?= $enseignant['id']; ?>">
+
+                <?= htmlspecialchars(
+                 $enseignant['prenom']
+                        . ' '
+                         . $enseignant['nom']
+                     ); ?>
+
+                </option>
+
+             <?php endforeach; ?>
+
+            </select>
+
+        </div>
+
+        <div class="form-group full">
+
+            <button
+                type="submit"
+                name="add_emploi"
+                class="btn-save"
+            >
+                Enregistrer
+            </button>
+
+            <button
+                type="button"
+                class="btn-cancel"
+            >
+                Annuler
+            </button>
+
+        </div>
+
+    </div>
+
+</form>
+    </div>
+
+    
+
+</div>
+
+
+
+<!-- ===========================
+      MODAL MODIFIER
+=========================== -->
+
+<div class="modal" id="editModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h3>
+
+                <i class="fa-solid fa-pen"></i>
+
+                Modifier le cours
+
+            </h3>
+
+            <span class="close-btn">&times;</span>
+
+        </div>
+
+        <form method="POST">
+
+            <input
+                type="hidden"
+                name="id"
+                id="edit-id"
+            >
+
+            <div class="modal-body">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Jour</label>
+
+                        <select
+                            name="jour"
+                            id="edit-jour"
+                            required
+                        >
+
+                            <option>Lundi</option>
+                            <option>Mardi</option>
+                            <option>Mercredi</option>
+                            <option>Jeudi</option>
+                            <option>Vendredi</option>
+                            <option>Samedi</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Classe</label>
+
+                        <select
+                            name="id_classe"
+                            id="edit-classe"
+                            required
+                        >
+
+                            <?php foreach($classes as $classe): ?>
+
+                                <option value="<?= $classe['id']; ?>">
+
+                                    <?= htmlspecialchars($classe['nom']); ?>
+
+                                </option>
+
+                            <?php endforeach; ?>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Matière</label>
+
+                        <select
+                            name="id_matiere"
+                            id="edit-matiere"
+                            required
+                        >
+
+                            <?php foreach($matieres as $matiere): ?>
+
+                                <option value="<?= $matiere['id']; ?>">
+
+                                    <?= htmlspecialchars($matiere['nom']); ?>
+
+                                </option>
+
+                            <?php endforeach; ?>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Enseignant</label>
+
+                        <select
+                            name="id_enseignant"
+                            id="edit-enseignant"
+                            required
+                        >
+
+                            <?php foreach($enseignants as $enseignant): ?>
+
+                                <option value="<?= $enseignant['id']; ?>">
+
+                                    <?= htmlspecialchars(
+                                        $enseignant['prenom']
+                                        . ' '
+                                        . $enseignant['nom']
+                                    ); ?>
+
+                                </option>
+
+                            <?php endforeach; ?>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Heure début</label>
+
+                        <input
+                            type="time"
+                            name="heure_debut"
+                            id="edit-heure-debut"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Heure fin</label>
+
+                        <input
+                            type="time"
+                            name="heure_fin"
+                            id="edit-heure-fin"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn-cancel"
+                >
+                    Annuler
+                </button>
+
+                <button
+                    type="submit"
+                    name="update_emploi"
+                    class="btn-save"
+                >
+                    Modifier
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 
 </div>
 
-<!-- ================= MODAL AJOUT COURS ================= -->
 
-<div id="modalCours" class="edt-modal">
 
-    <div class="edt-modal-content">
+<!-- ===========================
+      MODAL SUPPRESSION
+=========================== -->
 
-        <div class="edt-modal-header">
+<div class="modal" id="deleteModal">
 
-            <button
-                type="button"
-                class="edt-close"
-                onclick="fermerModal()"
-            >
-                ×
-            </button>
+    <div class="modal-content delete-box">
 
-            <h3>Ajouter un cours</h3>
+        <div class="modal-header danger">
 
-        </div>
+            <h3>
 
-        <div class="edt-modal-body">
+                <i class="fa-solid fa-trash"></i>
 
-            <div class="edt-form-group">
+                Confirmation
 
-                <label>Matière</label>
+            </h3>
 
-                <input
-                    type="text"
-                    id="matiere"
-                    placeholder="Ex : Développement Web"
-                >
-
-            </div>
-
-            <div class="edt-form-group">
-
-                <label>Salle</label>
-
-                <input
-                    type="text"
-                    id="salle"
-                    placeholder="Ex : Salle 204"
-                >
-
-            </div>
-
-            <div class="edt-form-group">
-
-                <label>Jour</label>
-
-                <select id="jour">
-
-                    <option value="">
-                        Choisir un jour
-                    </option>
-
-                    <option>Lundi</option>
-                    <option>Mardi</option>
-                    <option>Mercredi</option>
-                    <option>Jeudi</option>
-                    <option>Vendredi</option>
-                    <option>Samedi</option>
-
-                </select>
-
-            </div>
-
-            <div class="edt-form-group">
-
-                <label>Horaire</label>
-
-                <input
-                    type="text"
-                    id="heure"
-                    placeholder="08h00 - 10h00"
-                >
-
-            </div>
+            <span class="close-btn">&times;</span>
 
         </div>
 
-        <div class="edt-modal-footer">
+        <form method="POST">
 
-            <button
-                type="button"
-                class="edt-btn-cancel"
-                onclick="fermerModal()"
+            <input
+                type="hidden"
+                name="id"
+                id="delete-id"
             >
-                Annuler
-            </button>
 
-            <button
-                type="button"
-                class="edt-btn-save"
-                onclick="ajouterCoursModal()"
-            >
-                Ajouter
-            </button>
+            <div class="modal-body center">
 
-        </div>
+                <i class="fa-solid fa-circle-exclamation warning-icon"></i>
+
+                <p>
+
+                    Voulez-vous vraiment supprimer ce cours ?
+
+                </p>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn-cancel"
+                >
+                    Annuler
+                </button>
+
+                <button
+                    type="submit"
+                    name="delete_emploi"
+                    class="btn-danger"
+                >
+                    Supprimer
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 
@@ -338,4 +691,6 @@ $niveau = $_GET['niveau'] ?? 'L1';
 <script src="../../assets/js/emploi_temps.js"></script>
 
 
-<?php include '../layouts/footer.php'; ?>
+<?php
+include '../layouts/footer.php';
+?>

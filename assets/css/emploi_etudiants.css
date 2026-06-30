@@ -1,0 +1,126 @@
+.main-content {
+    margin-left: 300px;
+    width: calc(100% - 300px);
+    min-height: 100vh;
+    padding: 20px;
+    background: #f4f7fc;
+    box-sizing: border-box;
+}
+
+/* TOPBAR */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.topbar h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.user {
+    background: white;
+    padding: 10px 15px;
+    border-radius: 12px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* FILTRE */
+.filtre-prof select {
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #dbe2ea;
+    background: white;
+    min-width: 220px;
+}
+
+/* STATS */
+.stats-enseignant {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.stat-card {
+    background: white;
+    padding: 15px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+.stat-card h3 {
+    font-size: 22px;
+    color: #2563eb;
+}
+
+/* TABLE */
+.table-container-enseignants {
+    background: white;
+    padding: 15px;
+    border-radius: 16px;
+    overflow-x: auto;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.emploi-table-enseignants {
+    width: 100%;
+    min-width: 800px;
+    border-collapse: separate;
+    border-spacing: 6px;
+}
+
+.emploi-table-enseignants th {
+    background: #2563eb;
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.emploi-table-enseignants td {
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.emploi-table-enseignants td:first-child {
+    background: #e2e8f0;
+    font-weight: bold;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .stats-enseignant {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .emploi-table-enseignants {
+        min-width: 700px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .stats-enseignant {
+        grid-template-columns: 1fr;
+    }
+
+    .filtre-prof select {
+        width: 100%;
+    }
+}
